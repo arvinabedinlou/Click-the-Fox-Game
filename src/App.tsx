@@ -1,14 +1,19 @@
-import React from 'react';
+import React from "react";
+import { Routes, Route, Link, Outlet } from "react-router-dom";
+import NoMatch from "./components/404/NoMatch";
+import { ScoreBoard } from "./components/score-board/ScoreBoard";
+import Home from "./view/welcome-screen";
+import Game from "./view/game-screen";
 
-
-
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-      </header>
+    <div>
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="game" element={<Game />} />
+        <Route path="score-board" element={<ScoreBoard />} />
+        <Route path="*" element={<NoMatch />} />
+      </Routes>
     </div>
   );
 }
-
-export default App;
