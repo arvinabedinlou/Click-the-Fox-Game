@@ -3,12 +3,14 @@ export interface DogModel {
   categories: any[];
   id: string;
   url: string;
+  type?: string;
 }
 export interface CatModel {
   breeds: any[];
   categories: any[];
   id: string;
   url: string;
+  type?: string;
 }
 export interface CatParamsModel {
   size: string;
@@ -19,4 +21,7 @@ export interface CatParamsModel {
 }
 export interface FoxModel {
   name: string;
+  type?: string;
+  url?: string;
+  image?: string;
 }

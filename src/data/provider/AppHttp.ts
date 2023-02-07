@@ -5,7 +5,6 @@ export const BASE_URL = "https://";
 
 export const get = async (
   route: string,
-  page: number,
   httpDataListener: HttpDataListener
 ) => {
   try {

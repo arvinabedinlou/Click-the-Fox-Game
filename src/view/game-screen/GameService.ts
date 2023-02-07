@@ -5,48 +5,33 @@ import PicturesRepositoryImpl from "../../data/repository/photos/PhotoRepository
 class PicturesService {
   PicturesRepository: PicturesRepositoryImpl = new PicturesRepositoryImpl();
 
-  getCatsList(
-    page: number,
-    dataViewListener: DataViewListener<CatModel[]>
-  ): void {
-    dataViewListener.showLoading();
-    this.PicturesRepository.catsList(page, {
+  getCatsList(dataViewListener: DataViewListener<CatModel[]>): void {
+    this.PicturesRepository.catsList({
       onSuccess(data) {
-        dataViewListener.hideLoading();
         dataViewListener.onSuccess(data);
       },
       onError(message) {
-        dataViewListener.hideLoading();
         dataViewListener.showMessage(message);
       },
     });
   }
 
-  getDogsList(
-    page: number,
-    dataViewListener: DataViewListener<DogModel[]>
-  ): void {
-    dataViewListener.showLoading();
-    this.PicturesRepository.dogsList(page, {
+  getDogsList(dataViewListener: DataViewListener<DogModel[]>): void {
+    this.PicturesRepository.dogsList({
       onSuccess(data) {
-        dataViewListener.hideLoading();
         dataViewListener.onSuccess(data);
       },
       onError(message) {
-        dataViewListener.hideLoading();
         dataViewListener.showMessage(message);
       },
     });
   }
-  getFoxItem(page: number, dataViewListener: DataViewListener<FoxModel>): void {
-    dataViewListener.showLoading();
-    this.PicturesRepository.foxesItem(page, {
+  getFoxItem(dataViewListener: DataViewListener<FoxModel>): void {
+    this.PicturesRepository.foxesItem({
       onSuccess(data) {
-        dataViewListener.hideLoading();
         dataViewListener.onSuccess(data);
       },
       onError(message) {
-        dataViewListener.hideLoading();
         dataViewListener.showMessage(message);
       },
     });

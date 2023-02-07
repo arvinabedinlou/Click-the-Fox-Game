@@ -1,83 +1,77 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Column from "../../components/ui/column/Column";
 import Loading from "../../components/ui/loading/Loading";
 import SizedBox from "../../components/ui/sized-box/SizedBox";
-import { CatParamsModel } from "../../data/model/PicturesModel";
 import PicturesService from "./GameService";
 import "./index.css";
 const Index = () => {
-  const [dogs, setDogs] = useState<any>();
-  const [dogLoading, setDogLoading] = useState<boolean>();
-  const [cats, setCats] = useState<any>();
-  const [catLoading, setCatLoading] = useState<boolean>();
-  const [fox, setFox] = useState<any>();
-  const [foxLoading, setFoxLoading] = useState<boolean>();
-  const [page, setPage] = useState<number>(0);
+  const [dogs, setDogs] = useState<any>([]);
+  const [cats, setCats] = useState<any>([]);
+  const [fox, setFox] = useState<any>({});
+  const [imgsLoaded, setImgsLoaded] = useState(false);
+
+  // loadings wa handled in second useEffect
 
   useEffect(() => {
-    PicturesService.getDogsList(page, {
-      showLoading() {
-        setDogLoading(true);
-      },
-      hideLoading() {
-        setDogLoading(false);
-      },
-      showMessage(message) {
-        //    setError({ hasError: true, errorMessage: message });
-      },
+    PicturesService.getDogsList({
+      showMessage(message) {},
       onSuccess(data) {
-        let limitDogs = data.slice(0, 4);
-        setDogs([...limitDogs]);
-        //    setInAppMessages(data);
+        let typedDogs = addType(data, "dog");
+        setDogs([...typedDogs]);
       },
     });
-    PicturesService.getCatsList(page, {
-      showLoading() {
-        setCatLoading(true);
-      },
-      hideLoading() {
-        setCatLoading(false);
-      },
-      showMessage(message) {
-        //    setError({ hasError: true, errorMessage: message });
-      },
+    PicturesService.getCatsList({
+      showMessage(message) {},
       onSuccess(data) {
-        let limitCats = data.slice(0, 4);
-        setCats([...limitCats]);
+        let typedCats = addType(data, "cat");
+        setCats([...typedCats]);
       },
     });
-    PicturesService.getFoxItem(page, {
-      showLoading() {
-        setFoxLoading(true);
-      },
-      hideLoading() {
-        setFoxLoading(false);
-      },
-      showMessage(message) {
-        //    setError({ hasError: true, errorMessage: message });
-      },
+    PicturesService.getFoxItem({
+      showMessage(message) {},
       onSuccess(data) {
+        delete Object.assign(data, { url: data.image })["image"];
         setFox(data);
       },
     });
-    console.log(fox);
   }, []);
 
-  let pictures = [].concat(dogs, cats);
-  let shuffledPictures = pictures.sort((a, b) => 0.5 - Math.random());
+  // mix and shuffle data
+
+  let mixPictures = [...dogs, ...cats, fox];
+  const shuffledPictures = mixPictures.sort((a, b) => 0.5 - Math.random());
+
+  //disabling view before images loading
+
+  useEffect(() => {
+    const loadImage = (image: any) => {
+      return new Promise((resolve, reject) => {
+        const loadImg = new Image();
+        loadImg.src = image.url;
+        loadImg.onload = () => {
+          resolve(image.url);
+          loadImg.onerror = (err) => reject(err);
+        };
+      });
+    };
+    Promise.all(shuffledPictures.map((image: any) => loadImage(image)))
+      .then(() => {
+        setImgsLoaded(true);
+      })
+      .catch((err) => console.log("Failed to load images", err));
+  });
   return (
     <div>
       <Column>
         <SizedBox width="50%" backgroundColor={"#E8E2E2"}>
-          {dogLoading === true || catLoading === true || foxLoading === true ? (
-            <Loading />
-          ) : (
+          {imgsLoaded ? (
             <div className="grid">
               {shuffledPictures?.map((item: any, index: any) => {
                 return (
                   <div key={index}>
                     {" "}
                     <img
+                      // url keys not the same
                       src={item?.url}
                       loading="lazy"
                       alt=""
@@ -87,6 +81,8 @@ const Index = () => {
                 );
               })}
             </div>
+          ) : (
+            <Loading />
           )}
         </SizedBox>
       </Column>
@@ -94,3 +90,12 @@ const Index = () => {
   );
 };
 export default Index;
+
+// adding type key to dog and cat Data and limit the quantity to 4
+
+const addType = (data: any[], type: string) => {
+  let finalData = data.filter((item, index) => {
+    return index < 4 && (item["type"] = type);
+  });
+  return finalData;
+};

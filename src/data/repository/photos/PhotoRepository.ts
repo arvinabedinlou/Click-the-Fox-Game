@@ -7,7 +7,7 @@ import {
 } from "../../model/PicturesModel";
 
 export default interface PicturesRepository {
-  dogsList(page: number, dataListener: DataListener<DogModel[]>): void;
-  catsList(page: number, dataListener: DataListener<CatModel[]>): void;
-  foxesItem(page: number, dataListener: DataListener<FoxModel>): void;
+  dogsList(dataListener: DataListener<DogModel[]>): void;
+  catsList(dataListener: DataListener<CatModel[]>): void;
+  foxesItem(dataListener: DataListener<FoxModel>): void;
 }
