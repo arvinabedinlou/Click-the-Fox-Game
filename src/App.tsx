@@ -13,7 +13,7 @@ export default function App() {
         <Route index element={<Home />} />
         <Route path="game" element={<Game />} />
         <Route path="score-board" element={<ScoreBoard />} />
-        <Route path="time" element={<CountDownTimer />} />
+        {/* <Route path="time" element={<CountDownTimer />} /> */}
         <Route path="*" element={<NoMatch />} />
       </Routes>
     </div>

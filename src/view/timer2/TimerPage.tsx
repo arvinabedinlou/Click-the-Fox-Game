@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
-const CountDownTimer = () => {
+const CountDownTimer: React.FC<{ startTime: any; setStartTime: any }> = ({
+  startTime,
+  setStartTime,
+}) => {
   const [timer, setTimer] = useState<number>(30);
   const [start, setStart] = useState<boolean>(false);
   const tick = useRef<any>();
   const timerFunc = () => {
-    if (start) {
+    if (startTime) {
       tick.current = setInterval(() => {
         setTimer((timer) => timer - 1);
       }, 1000);
@@ -17,38 +20,35 @@ const CountDownTimer = () => {
   };
   useEffect(() => {
     timerFunc();
-  }, [start]);
+  }, [startTime]);
   return (
     <>
       {timer >= 0 ? (
         <div
           style={{
             width: "100%",
-            height: "400px",
-            color: "red",
+            // height: "400px",
+            color: "black",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <button
-            onClick={() => {
-              setStart(true);
-            }}
-          >
-            start
-          </button>
-          <button
-            onClick={() => {
-              setStart(false);
-            }}
-          >
-            stop
-          </button>
           <div>timer :{timer}</div>
         </div>
       ) : (
-        <div>expierd</div>
+        <div
+          style={{
+            width: "100%",
+            // height: "400px",
+            color: "black",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          expierd
+        </div>
       )}
     </>
   );
