@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Column from "../../components/ui/column/Column";
 import Loading from "../../components/ui/loading/Loading";
 import SizedBox from "../../components/ui/sized-box/SizedBox";
+import Score from "../Score/Score";
+import CountDownTimer from "../timer2/TimerPage";
 import PicturesService from "./GameService";
 import "./index.css";
 const Index = () => {
@@ -9,10 +11,15 @@ const Index = () => {
   const [cats, setCats] = useState<any>([]);
   const [fox, setFox] = useState<any>({});
   const [imgsLoaded, setImgsLoaded] = useState(false);
-
+  const [timeStart, setTimeStart] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(0);
+  const [scoreItem, setScoreItem] = useState<any>({});
+  const [showLoading, setShowLoading] = useState<boolean>(true);
   // loadings wa handled in second useEffect
 
   useEffect(() => {
+    // const getPictures = () => {
+    // setImgsLoaded(false);
     PicturesService.getDogsList({
       showMessage(message) {},
       onSuccess(data) {
@@ -34,7 +41,7 @@ const Index = () => {
         setFox(data);
       },
     });
-  }, []);
+  }, [page]);
 
   // mix and shuffle data
 
@@ -49,7 +56,9 @@ const Index = () => {
         const loadImg = new Image();
         loadImg.src = image.url;
         loadImg.onload = () => {
-          resolve(image.url);
+          setTimeout(() => {
+            resolve(image.url);
+          }, 1000);
           loadImg.onerror = (err) => reject(err);
         };
       });
@@ -57,33 +66,54 @@ const Index = () => {
     Promise.all(shuffledPictures.map((image: any) => loadImage(image)))
       .then(() => {
         setImgsLoaded(true);
+        setShowLoading(false);
+        setTimeStart(true);
       })
       .catch((err) => console.log("Failed to load images", err));
   });
+
   return (
     <div>
       <Column>
         <SizedBox width="50%" backgroundColor={"#E8E2E2"}>
-          {imgsLoaded ? (
-            <div className="grid">
-              {shuffledPictures?.map((item: any, index: any) => {
-                return (
-                  <div key={index}>
-                    {" "}
-                    <img
-                      // url keys not the same
-                      src={item?.url}
-                      loading="lazy"
-                      alt=""
-                      style={{ width: "100px", height: "100px" }}
-                    ></img>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <Loading />
-          )}
+          <Column>
+            <SizedBox width="80%">
+              <CountDownTimer
+                startTime={timeStart}
+                setStartTime={setTimeStart}
+              />
+              <Score item={scoreItem} />
+            </SizedBox>
+            {imgsLoaded === true && showLoading === false ? (
+              <SizedBox>
+                <div className="grid">
+                  {shuffledPictures?.map((item: any, index: any) => {
+                    return (
+                      <div key={index}>
+                        {" "}
+                        <img
+                          src={item?.url}
+                          onClick={() => {
+                            setPage(page + 1);
+                            setShowLoading(true);
+                            setTimeStart(false);
+                            setDogs([]);
+                            setCats([]);
+                            setFox({});
+                            setScoreItem(item);
+                          }}
+                          alt=""
+                          style={{ width: "100px", height: "100px" }}
+                        ></img>
+                      </div>
+                    );
+                  })}
+                </div>
+              </SizedBox>
+            ) : (
+              <Loading width={200} height={200} color={"blue"} />
+            )}
+          </Column>
         </SizedBox>
       </Column>
     </div>
