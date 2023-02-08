@@ -58,31 +58,35 @@ const Index = () => {
   //     console.log("loaded");
   //   });
 
-  function Images({ shuffledPictures }: any) {
-    const onComplete = after(shuffledPictures?.length, () => {
-      // setLoading(false);
-      console.log("loaded");
-    });
-  }
+  // function Images({ shuffledPictures }: any) {
+  //   const onComplete = after(shuffledPictures?.length, () => {
+  //     // setLoading(false);
+  //     console.log("loaded");
+  //   });
+  // }
+
+  const onLoad: any = after(9, () => {
+    console.log("loaded");
+  });
   useEffect(() => {
-    const loadImage = (image: any) => {
-      return new Promise((resolve, reject) => {
-        const loadImg = new Image();
-        loadImg.src = image.url;
-        loadImg.onload = () => {
-          resolve(image.url);
-          loadImg.onerror = (err) => reject(err);
-        };
-      });
-    };
-    Promise.all(shuffledPictures.map((image: any) => loadImage(image)))
-      .then(() => {
-        console.log("12");
-        setImgsLoaded(true);
-        setShowLoading(false);
-        setTimeStart(true);
-      })
-      .catch((err) => console.log("Failed to load images", err));
+    // const loadImage = (image: any) => {
+    //   return new Promise((resolve, reject) => {
+    //     const loadImg = new Image();
+    //     loadImg.src = image.url;
+    //     loadImg.onload = () => {
+    //       resolve(image.url);
+    //       loadImg.onerror = (err) => reject(err);
+    //     };
+    //   });
+    // };
+    // Promise.all(shuffledPictures.map((image: any) => loadImage(image)))
+    //   .then(() => {
+    //     console.log("12");
+    //     setImgsLoaded(true);
+    //     setShowLoading(false);
+    //     setTimeStart(true);
+    //   })
+    //   .catch((err) => console.log("Failed to load images", err));
   });
 
   // const onLoad = () => {
@@ -92,12 +96,12 @@ const Index = () => {
   // setShowLoading(false);
   // setTimeStart(true);
   // }
-  const onLoad: any = after(9, () => {
-    setImgsLoaded(true);
-    setShowLoading(false);
-    setTimeStart(true);
-    console.log("all done");
-  });
+  // const onLoad: any = after(9, () => {
+  //   setImgsLoaded(true);
+  //   setShowLoading(false);
+  //   setTimeStart(true);
+  //   console.log("all done");
+  // });
   // after(shuffledPictures?.length, () => {
   //   setLoading(false);
   //   console.log("loaded1");
