@@ -1,0 +1,21 @@
+.welcome-name{
+    width: 200px;
+    height:30px;
+    border: 1px solid #fcba03;
+    margin: 0px 10px;
+    border-radius: 5px;
+    padding: 0px 10px;
+}
+.welcome-name:focus {
+    border: 1px solid #fcba03;
+}
+.welcome-btn{
+    width: 200px;
+    height: 50px;
+    background-color: #fcba03;
+    border: 1px solid #fcba03;
+    border-radius: 5px;
+} 
+.welcome-btn:disabled {
+    background-color: #ffffff;
+}
