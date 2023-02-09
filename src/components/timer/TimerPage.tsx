@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const CountDownTimer: React.FC<{ startTime: any; setStartTime: any }> = ({
-  startTime,
-  setStartTime,
-}) => {
+const CountDownTimer: React.FC<{ startTime: any }> = ({ startTime }) => {
   const [timer, setTimer] = useState<number>(30000);
   const tick = useRef<any>();
   const timerFunc = () => {

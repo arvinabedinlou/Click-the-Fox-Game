@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 
-const Score: React.FC<{ item: any }> = ({ item }) => {
+const Score: React.FC<{ item: any; changeScore: any }> = ({
+  item,
+  changeScore,
+}) => {
   const [score, setScore] = useState<number>(-1);
 
   useEffect(() => {
@@ -10,6 +13,9 @@ const Score: React.FC<{ item: any }> = ({ item }) => {
       setScore(score + 1);
     }
   }, [item]);
+  useEffect(() => {
+    changeScore(score);
+  }, [score]);
   return (
     <>
       <div

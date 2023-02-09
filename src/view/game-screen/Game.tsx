@@ -13,7 +13,7 @@ const Index = () => {
   const [scoreItem, setScoreItem] = useState<any>({});
   const [showLoading, setShowLoading] = useState<boolean>(true);
   const [allPictures, setAllPictures] = useState<any>([]);
-
+  const [score, setScore] = useState<number>(0);
   useEffect(() => {
     PicturesService.getDogsList({
       showMessage(message) {},
@@ -69,20 +69,41 @@ const Index = () => {
       })
       .catch((err) => console.log("Failed to load images", err));
   });
-  const playerName = useLocation();
 
-  localStorage.setItem("player", "0");
+  const playerName = useLocation();
+  const saveScores = () => {
+    const scores: any = localStorage.getItem("Scores");
+    const newScore = [...scores];
+    if (newScore?.length > 0) {
+      const newPlayerResult = newScore.push({
+        score: score,
+        name: playerName.state.name,
+      });
+      localStorage.setItem("Scores", JSON.stringify(newPlayerResult));
+    } else {
+      const newPlayerResult = scores.push([
+        {
+          score: score,
+          name: playerName.state.name,
+        },
+      ]);
+      localStorage.setItem("Scores", JSON.stringify(newPlayerResult));
+    }
+  };
+
   return (
     <div>
       <Column>
         <SizedBox width="50%" backgroundColor={"#E8E2E2"}>
           <Column>
             <SizedBox width="80%">
-              <CountDownTimer
-                startTime={timeStart}
-                setStartTime={setTimeStart}
+              <CountDownTimer startTime={timeStart} />
+              <Score
+                item={scoreItem}
+                changeScore={(e: any) => {
+                  setScore(e);
+                }}
               />
-              <Score item={scoreItem} />
             </SizedBox>
             {showLoading ? (
               <Loading width={200} height={300} color={"blue"} />
@@ -101,6 +122,7 @@ const Index = () => {
                             setShowLoading(true);
                             setTimeStart(false);
                             setAllPictures([]);
+                            saveScores();
                           }}
                           alt={item.url}
                           style={{ width: "100px", height: "100px" }}
