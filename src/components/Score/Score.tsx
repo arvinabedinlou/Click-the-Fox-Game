@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const Score: React.FC<{ item: any }> = ({ item }) => {
   const [score, setScore] = useState<number>(-1);
 
   useEffect(() => {
-    if (item?.type === "dog" || item?.type === "cat") {
+    if (item.type === "dog" || item.type === "cat") {
       setScore(score - 1);
     } else {
       setScore(score + 1);
@@ -21,7 +21,7 @@ const Score: React.FC<{ item: any }> = ({ item }) => {
           alignItems: "center",
         }}
       >
-        <div>timer : {score}</div>
+        <div>Score : {score}</div>
       </div>
     </>
   );

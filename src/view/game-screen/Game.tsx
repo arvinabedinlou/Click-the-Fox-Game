@@ -2,69 +2,50 @@ import { useEffect, useState } from "react";
 import Column from "../../components/ui/column/Column";
 import Loading from "../../components/ui/loading/Loading";
 import SizedBox from "../../components/ui/sized-box/SizedBox";
-import Score from "../Score/Score";
-import CountDownTimer from "../timer2/TimerPage";
+import Score from "../../components/Score/Score";
+import CountDownTimer from "../../components/timer/TimerPage";
 import PicturesService from "./GameService";
-import { after } from "underscore";
 import "./index.css";
+import { useLocation } from "react-router-dom";
 const Index = () => {
-  const [dogs, setDogs] = useState<any>([]);
-  const [cats, setCats] = useState<any>([]);
-  const [fox, setFox] = useState<any>({});
-  const [imgsLoaded, setImgsLoaded] = useState(false);
   const [timeStart, setTimeStart] = useState<boolean>(false);
   const [page, setPage] = useState<number>(0);
   const [scoreItem, setScoreItem] = useState<any>({});
   const [showLoading, setShowLoading] = useState<boolean>(true);
-  const [imageCountLoaded, setImageCountLoaded] = useState<number>(0);
-
-  // loadings wa handled in second useEffect
+  const [allPictures, setAllPictures] = useState<any>([]);
 
   useEffect(() => {
-    // const getPictures = () => {
-    // setImgsLoaded(false);
     PicturesService.getDogsList({
       showMessage(message) {},
       onSuccess(data) {
         let typedDogs = addType(data, "dog");
-        setDogs([...typedDogs]);
+        setAllPictures((prevState: any) => {
+          return [...prevState, ...typedDogs];
+        });
       },
     });
     PicturesService.getCatsList({
       showMessage(message) {},
       onSuccess(data) {
         let typedCats = addType(data, "cat");
-        setCats([...typedCats]);
+        setAllPictures((prevState: any) => {
+          return [...prevState, ...typedCats];
+        });
       },
     });
     PicturesService.getFoxItem({
       showMessage(message) {},
       onSuccess(data) {
         delete Object.assign(data, { url: data.image })["image"];
-        setFox(data);
+        setAllPictures((prevState: any) => {
+          return [...prevState, data];
+        });
       },
     });
   }, [page]);
 
-  // mix and shuffle data
-
-  let mixPictures = [...dogs, ...cats, fox];
-  const shuffledPictures = mixPictures.sort((a, b) => 0.5 - Math.random());
-
-  //disabling view before images loading
-  // const Images = (urls: any) => {
-  //   const onComplete = after(shuffledPictures.length, () => {
-  //     setLoading(false);
-  //     console.log("loaded");
-  //   });
-
-  function Images({ shuffledPictures }: any) {
-    const onComplete = after(shuffledPictures?.length, () => {
-      // setLoading(false);
-      console.log("loaded");
-    });
-  }
   useEffect(() => {
+    console.log("1");
     const loadImage = (image: any) => {
       return new Promise((resolve, reject) => {
         const loadImg = new Image();
@@ -75,35 +56,22 @@ const Index = () => {
         };
       });
     };
-    Promise.all(shuffledPictures.map((image: any) => loadImage(image)))
+    Promise.allSettled(allPictures.map((image: any) => loadImage(image)))
       .then(() => {
-        console.log("12");
-        setImgsLoaded(true);
-        setShowLoading(false);
-        setTimeStart(true);
+        console.log("loaded");
+        if (allPictures.length === 9) {
+          setShowLoading(false);
+          setTimeStart(true);
+          setAllPictures((pictures: any) => {
+            return pictures.sort(() => 0.5 - Math.random());
+          });
+        }
       })
       .catch((err) => console.log("Failed to load images", err));
   });
+  const playerName = useLocation();
 
-  // const onLoad = () => {
-  // setImageCountLoaded(imageCountLoaded + 1);
-  // if (imageCountLoaded === 9) {
-  // setImgsLoaded(true);
-  // setShowLoading(false);
-  // setTimeStart(true);
-  // }
-  const onLoad: any = after(9, () => {
-    setImgsLoaded(true);
-    setShowLoading(false);
-    setTimeStart(true);
-    console.log("all done");
-  });
-  // after(shuffledPictures?.length, () => {
-  //   setLoading(false);
-  //   console.log("loaded1");
-  // });
-  // };
-
+  localStorage.setItem("player", "0");
   return (
     <div>
       <Column>
@@ -116,27 +84,25 @@ const Index = () => {
               />
               <Score item={scoreItem} />
             </SizedBox>
-            {imgsLoaded === true && showLoading === false ? (
+            {showLoading ? (
+              <Loading width={200} height={300} color={"blue"} />
+            ) : (
               <SizedBox>
                 <div className="grid">
-                  {shuffledPictures?.map((item: any, index: any) => {
+                  {allPictures?.map((item: any, index: any) => {
                     return (
                       <div key={index}>
                         {" "}
                         <img
-                          src={item?.url}
-                          onLoad={onLoad}
-                          // onError={onComplete}
+                          src={item.url}
                           onClick={() => {
                             setPage(page + 1);
+                            setScoreItem(item);
                             setShowLoading(true);
                             setTimeStart(false);
-                            setDogs([]);
-                            setCats([]);
-                            setFox({});
-                            setScoreItem(item);
+                            setAllPictures([]);
                           }}
-                          alt=""
+                          alt={item.url}
                           style={{ width: "100px", height: "100px" }}
                         ></img>
                       </div>
@@ -144,8 +110,6 @@ const Index = () => {
                   })}
                 </div>
               </SizedBox>
-            ) : (
-              <Loading width={200} height={200} color={"blue"} />
             )}
           </Column>
         </SizedBox>
@@ -154,8 +118,6 @@ const Index = () => {
   );
 };
 export default Index;
-
-// adding type key to dog and cat Data and limit the quantity to 4
 
 const addType = (data: any[], type: string) => {
   let finalData = data.filter((item, index) => {

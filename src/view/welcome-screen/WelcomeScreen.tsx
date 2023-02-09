@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Column from "../../components/ui/column/Column";
 import SizedBox from "../../components/ui/sized-box/SizedBox";
 import useDebounce from "../../utils/debounce";
+import { useNavigate } from "react-router-dom";
 import "./index.css";
 
 const Home = () => {
@@ -12,7 +13,6 @@ const Home = () => {
   const getName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
-  // useEffect(())
 
   useEffect(() => {
     if (debouncedValue !== "") {
@@ -20,10 +20,13 @@ const Home = () => {
       setEnable(false);
     }
   }, [debouncedValue]);
+
+  const navigate = useNavigate();
+  const goToGame = () => {
+    navigate("/game", { state: { name } });
+  };
   return (
     <div>
-      <p>Value real-time: {name}</p>
-      <p>Debounced value: {debouncedValue}</p>
       <Column>
         <SizedBox height={200} width="50%" backgroundColor={"#E8E2E2"}>
           Click the Fox! Game
@@ -54,7 +57,7 @@ const Home = () => {
           </div>
         </SizedBox>
         <SizedBox height={200} width="50%" backgroundColor={"#E8E2E2"}>
-          <button disabled={enable} className="welcome-btn" onClick={() => {}}>
+          <button disabled={enable} className="welcome-btn" onClick={goToGame}>
             Play
           </button>
         </SizedBox>
