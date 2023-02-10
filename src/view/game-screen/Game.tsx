@@ -69,16 +69,15 @@ const Index = () => {
       .catch((err) => console.log("Failed to load images", err));
   });
 
-  const playerName = useLocation();
-  console.log(playerName.state);
-
+  const playerData = useLocation();
+  
   return (
     <div>
       <Column>
         <SizedBox width="50%" height={450} backgroundColor={"#EFF5F5"}>
           <Column>
             <SizedBox width="80%">
-              <CountDownTimer startTime={timeStart} />
+              <CountDownTimer startTime={timeStart} playerData={playerData} />
               <Score
                 item={scoreItem}
                 changeScore={(e: any) => {
