@@ -9,6 +9,7 @@ const Home = () => {
   const [enable, setEnable] = useState(true);
   const [name, setName] = useState<string>("");
   const [show, setShow] = useState<boolean>(false);
+
   const debouncedValue = useDebounce<string>(name, 1500);
   const getName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -22,16 +23,19 @@ const Home = () => {
   }, [debouncedValue]);
 
   const navigate = useNavigate();
+
   const goToGame = () => {
-    navigate("/game", { state: { name } });
+    const date = new Date();
+    const formattedDate = date.toISOString().slice(0, 10);
+    navigate("/game", { state: { name, formattedDate } });
   };
   return (
     <div>
       <Column>
-        <SizedBox height={200} width="50%" backgroundColor={"#E8E2E2"}>
+        <SizedBox height={200} width="50%" backgroundColor={"#EFF5F5"}>
           Click the Fox! Game
         </SizedBox>
-        <SizedBox height={50} width="50%" backgroundColor={"#E8E2E2"}>
+        <SizedBox height={50} width="50%" backgroundColor={"#EFF5F5"}>
           <div hidden={show}>
             <label htmlFor="name">Name: </label>
             <input
@@ -45,7 +49,7 @@ const Home = () => {
             />
           </div>
         </SizedBox>
-        <SizedBox height={50} width="50%" backgroundColor={"#E8E2E2"}>
+        <SizedBox height={50} width="50%" backgroundColor={"#EFF5F5"}>
           <div
             hidden={!show}
             onClick={() => {
@@ -56,7 +60,7 @@ const Home = () => {
             <p>Hello {name} </p>
           </div>
         </SizedBox>
-        <SizedBox height={200} width="50%" backgroundColor={"#E8E2E2"}>
+        <SizedBox height={200} width="50%" backgroundColor={"#EFF5F5"}>
           <button disabled={enable} className="welcome-btn" onClick={goToGame}>
             Play
           </button>

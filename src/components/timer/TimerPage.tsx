@@ -29,7 +29,7 @@ const CountDownTimer: React.FC<{ startTime: any }> = ({ startTime }) => {
             alignItems: "center",
           }}
         >
-          <div>timer :{Math.round(timer / 1000)}</div>
+          <div>Time Left  :{Math.round(timer / 1000)} </div>
         </div>
       ) : (
         <div
