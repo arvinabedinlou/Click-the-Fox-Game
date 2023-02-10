@@ -70,14 +70,16 @@ const Index = () => {
   });
 
   const playerData = useLocation();
-  
   return (
     <div>
       <Column>
         <SizedBox width="50%" height={450} backgroundColor={"#EFF5F5"}>
           <Column>
             <SizedBox width="80%">
-              <CountDownTimer startTime={timeStart} playerData={playerData} />
+              <CountDownTimer
+                startTime={timeStart}
+                playerData={{ playerInfo: playerData, score }}
+              />
               <Score
                 item={scoreItem}
                 changeScore={(e: any) => {

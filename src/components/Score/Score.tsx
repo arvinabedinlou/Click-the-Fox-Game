@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const Score: React.FC<{ item?: any; changeScore?: any }> = ({
+const Score: React.FC<{ item: any; changeScore: any }> = ({
   item,
   changeScore,
 }) => {

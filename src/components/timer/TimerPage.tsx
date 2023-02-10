@@ -5,7 +5,7 @@ const CountDownTimer: React.FC<{ startTime: any; playerData: any }> = ({
   startTime,
   playerData,
 }) => {
-  const [timer, setTimer] = useState<number>(30);
+  const [timer, setTimer] = useState<number>(5);
   const tick = useRef<any>();
   const timerFunc = () => {
     if (startTime) {
