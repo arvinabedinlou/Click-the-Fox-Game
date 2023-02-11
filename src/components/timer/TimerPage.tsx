@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
 
-const CountDownTimer: React.FC<{ startTime: any }> = ({ startTime }) => {
-  const [timer, setTimer] = useState<number>(30000);
+const CountDownTimer: React.FC<{ startTime: any; playerData: any }> = ({
+  startTime,
+  playerData,
+}) => {
+  const [timer, setTimer] = useState<number>(5);
   const tick = useRef<any>();
   const timerFunc = () => {
     if (startTime) {
       tick.current = setInterval(() => {
-        setTimer((timer) => timer - 4);
-      }, 1);
+        setTimer((timer) => timer - 1);
+      }, 1000);
     } else {
-      console.log("clear interval");
       clearInterval(tick.current);
     }
     return () => clearInterval(tick.current);
@@ -17,33 +20,24 @@ const CountDownTimer: React.FC<{ startTime: any }> = ({ startTime }) => {
   useEffect(() => {
     timerFunc();
   }, [startTime]);
+
+  const navigate = useNavigate();
+  if (timer <= 0) {
+    navigate("/scoreboard", { state: { playerData } });
+  }
   return (
     <>
-      {timer >= 0 ? (
-        <div
-          style={{
-            width: "100%",
-            color: "black",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <div>timer :{Math.round(timer / 1000)}</div>
-        </div>
-      ) : (
-        <div
-          style={{
-            width: "100%",
-            color: "black",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          expierd
-        </div>
-      )}
+      <div
+        style={{
+          width: "100%",
+          color: "black",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div>Time Left :{timer} </div>
+      </div>
     </>
   );
 };

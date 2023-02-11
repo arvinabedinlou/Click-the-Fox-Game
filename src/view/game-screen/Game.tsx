@@ -45,7 +45,6 @@ const Index = () => {
   }, [page]);
 
   useEffect(() => {
-    console.log("1");
     const loadImage = (image: any) => {
       return new Promise((resolve, reject) => {
         const loadImg = new Image();
@@ -70,34 +69,18 @@ const Index = () => {
       .catch((err) => console.log("Failed to load images", err));
   });
 
-  const playerName = useLocation();
-  const saveScores = () => {
-    const scores: any = localStorage.getItem("Scores");
-    const newScore = [...scores];
-    if (newScore?.length > 0) {
-      const newPlayerResult = newScore.push({
-        score: score,
-        name: playerName.state.name,
-      });
-      localStorage.setItem("Scores", JSON.stringify(newPlayerResult));
-    } else {
-      const newPlayerResult = scores.push([
-        {
-          score: score,
-          name: playerName.state.name,
-        },
-      ]);
-      localStorage.setItem("Scores", JSON.stringify(newPlayerResult));
-    }
-  };
-
+  const playerData = useLocation();
+  console.log(playerData);
   return (
     <div>
       <Column>
-        <SizedBox width="50%" backgroundColor={"#E8E2E2"}>
+        <SizedBox width="50%" height={450} backgroundColor={"#EFF5F5"}>
           <Column>
             <SizedBox width="80%">
-              <CountDownTimer startTime={timeStart} />
+              <CountDownTimer
+                startTime={timeStart}
+                playerData={{ playerInfo: playerData, score }}
+              />
               <Score
                 item={scoreItem}
                 changeScore={(e: any) => {
@@ -122,7 +105,6 @@ const Index = () => {
                             setShowLoading(true);
                             setTimeStart(false);
                             setAllPictures([]);
-                            saveScores();
                           }}
                           alt={item.url}
                           style={{ width: "100px", height: "100px" }}
