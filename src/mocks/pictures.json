@@ -1,0 +1,62 @@
+[
+  {
+    "link": "https://randomfox.ca/?i=104",
+    "url": "https://randomfox.ca/images/104.jpg"
+  },
+  {
+    "id": "e8h56V5CY",
+    "url": "https://cdn2.thedogapi.com/images/e8h56V5CY.jpg",
+    "width": 300,
+    "height": 240,
+    "type": "dog"
+  },
+  {
+    "id": "54j",
+    "url": "https://cdn2.thecatapi.com/images/54j.jpg",
+    "width": 598,
+    "height": 800,
+    "type": "cat"
+  },
+  {
+    "id": "3d1",
+    "url": "https://cdn2.thecatapi.com/images/3d1.jpg",
+    "width": 2448,
+    "height": 3264,
+    "type": "cat"
+  },
+  {
+    "id": "34v9aKCct",
+    "url": "https://cdn2.thedogapi.com/images/34v9aKCct.jpg",
+    "width": 744,
+    "height": 928,
+    "type": "dog"
+  },
+  {
+    "id": "B1IcfgqE7",
+    "url": "https://cdn2.thedogapi.com/images/B1IcfgqE7_1280.jpg",
+    "width": 1920,
+    "height": 1080,
+    "type": "dog"
+  },
+  {
+    "id": "53h",
+    "url": "https://cdn2.thecatapi.com/images/53h.jpg",
+    "width": 500,
+    "height": 375,
+    "type": "cat"
+  },
+  {
+    "id": "6sm",
+    "url": "https://cdn2.thecatapi.com/images/6sm.jpg",
+    "width": 500,
+    "height": 373,
+    "type": "cat"
+  },
+  {
+    "id": "QIZB_XEt5",
+    "url": "https://cdn2.thedogapi.com/images/QIZB_XEt5.jpg",
+    "width": 1600,
+    "height": 1119,
+    "type": "dog"
+  }
+]

@@ -3,7 +3,7 @@ import Column from "../../components/ui/column/Column";
 import SizedBox from "../../components/ui/sized-box/SizedBox";
 import useDebounce from "../../utils/debounce";
 import { useNavigate } from "react-router-dom";
-import "./index.css";
+import "./WelcomeScreen.css";
 
 const Home = () => {
   const [enable, setEnable] = useState(true);
