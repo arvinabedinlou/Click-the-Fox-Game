@@ -7,6 +7,8 @@ const CountDownTimer: React.FC<{ startTime: boolean; playerData?: any }> = ({
 }) => {
   const [timer, setTimer] = useState<number>(30);
   const tick = useRef<any>();
+
+  // There is another good approach for handling this part which I will show it to you
   const timerFunc = () => {
     if (startTime) {
       tick.current = setInterval(() => {
