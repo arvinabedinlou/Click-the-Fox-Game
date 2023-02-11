@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 
-const CountDownTimer: React.FC<{ startTime: any; playerData: any }> = ({
+const CountDownTimer: React.FC<{ startTime: boolean; playerData: any }> = ({
   startTime,
   playerData,
 }) => {
-  const [timer, setTimer] = useState<number>(5);
+  const [timer, setTimer] = useState<number>(30);
   const tick = useRef<any>();
   const timerFunc = () => {
     if (startTime) {
