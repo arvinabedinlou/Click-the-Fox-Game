@@ -42,6 +42,12 @@ const Index = () => {
         });
       },
     });
+    PicturesService.getPicturesList({
+      showMessage(message) {},
+      onSuccess(data) {
+        console.log(data);
+      },
+    });
   }, [page]);
 
   useEffect(() => {
@@ -70,7 +76,6 @@ const Index = () => {
   });
 
   const playerData = useLocation();
-  console.log(playerData);
   return (
     <div>
       <Column>

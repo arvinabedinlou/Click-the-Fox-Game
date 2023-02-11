@@ -1,3 +1,8 @@
+export interface PicturesModel {
+  dogs: DogModel;
+  cats: CatModel;
+  fox: FoxModel;
+}
 export interface DogModel {
   breeds: any[];
   categories: any[];
@@ -11,13 +16,6 @@ export interface CatModel {
   id: string;
   url: string;
   type?: string;
-}
-export interface CatParamsModel {
-  size: string;
-  mime_types: string;
-  order: string;
-  page: number;
-  limit: number;
 }
 export interface FoxModel {
   name: string;
