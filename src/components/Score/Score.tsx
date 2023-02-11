@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import { PicturesModel } from "../../data/model/PicturesModel";
 
-const Score: React.FC<{ item: any; changeScore: any }> = ({
-  item,
-  changeScore,
-}) => {
+const Score: React.FC<{
+  item: PicturesModel;
+  changeScore: (score: number) => void;
+}> = ({ item, changeScore }) => {
   const [score, setScore] = useState<number>(-1);
 
   useEffect(() => {

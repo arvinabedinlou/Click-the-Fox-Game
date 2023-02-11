@@ -1,22 +1,19 @@
 import DataListener from "../../DataListener";
-import {
-  DogModel,
-  CatModel,
-  FoxModel,
-  PicturesModel,
-} from "../../model/PicturesModel";
+import { PicturesModel } from "../../model/PicturesModel";
 import { get } from "../../provider/AppHttp";
 import PicturesRepository from "./PhotoRepository";
 
 export default class PicturesRepositoryImpl implements PicturesRepository {
-  async picturesList(dataListener: DataListener<PicturesModel>) {
-    const addType = (data: any[], type: string) => {
-      let finalData = data.filter((item, index) => {
+  async picturesList(dataListener: DataListener<PicturesModel[]>) {
+    let mixedPictures: PicturesModel[] = [];
+
+    const addType = (data: PicturesModel[], type: string) => {
+      let typedData = data.filter((item, index) => {
         return index < 4 && (item["type"] = type);
       });
-      return finalData;
+      return typedData;
     };
-    let FinalData: any = [];
+
     try {
       const res = await Promise.all([
         get(
@@ -24,8 +21,7 @@ export default class PicturesRepositoryImpl implements PicturesRepository {
           {
             onSuccess(response) {
               const typedDog = addType(response.data, "dog");
-              FinalData.push(...typedDog);
-              // dataListener.onSuccess(typedDog);
+              mixedPictures.push(...typedDog);
             },
             onFailure(message) {
               dataListener.onError(message);
@@ -37,8 +33,7 @@ export default class PicturesRepositoryImpl implements PicturesRepository {
           {
             onSuccess(response) {
               const typedCat = addType(response.data, "cat");
-              FinalData.push(...typedCat);
-              // dataListener.onSuccess(response.data);
+              mixedPictures.push(...typedCat);
             },
             onFailure(message) {
               dataListener.onError(message);
@@ -47,57 +42,22 @@ export default class PicturesRepositoryImpl implements PicturesRepository {
         ),
         get(`randomfox.ca/floof/`, {
           onSuccess(response) {
-            FinalData.push(response.data);
-            // dataListener.onSuccess(response.data);
+            delete Object.assign(response.data, { url: response.data.image })[
+              "image"
+            ];
+            mixedPictures.push(response.data);
           },
           onFailure(message) {
             dataListener.onError(message);
           },
         }),
       ]);
-      const data = await Promise.all(
-        res.map((r) => dataListener.onSuccess(FinalData))
+      const shuffledPictures = mixedPictures.sort(() => 0.5 - Math.random());
+      await Promise.all(
+        res.map(() => dataListener.onSuccess(shuffledPictures))
       );
-      // console.log(data.flat());
-      // console.log(data);
     } catch {
       throw Error("Promise failed");
     }
-  }
-  dogsList(dataListener: DataListener<DogModel[]>): void {
-    get(
-      `api.thedogapi.com/v1/images/search?mime_types=jpg&order=ASC&limit=4&page=0`,
-      {
-        onSuccess(response) {
-          dataListener.onSuccess(response.data);
-        },
-        onFailure(message) {
-          dataListener.onError(message);
-        },
-      }
-    );
-  }
-  catsList(dataListener: DataListener<CatModel[]>): void {
-    get(
-      `api.thecatapi.com/v1/images/search?mime_types=jpg&order=ASC&limit=4&page=0`,
-      {
-        onSuccess(response) {
-          dataListener.onSuccess(response.data);
-        },
-        onFailure(message) {
-          dataListener.onError(message);
-        },
-      }
-    );
-  }
-  foxesItem(dataListener: DataListener<FoxModel>): void {
-    get(`randomfox.ca/floof/`, {
-      onSuccess(response) {
-        dataListener.onSuccess(response.data);
-      },
-      onFailure(message) {
-        dataListener.onError(message);
-      },
-    });
   }
 }

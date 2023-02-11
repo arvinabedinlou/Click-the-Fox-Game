@@ -4,19 +4,17 @@ import { Link } from "react-router-dom";
 import Column from "../../components/ui/column/Column";
 import Container from "../../components/ui/container/Container";
 import SizedBox from "../../components/ui/sized-box/SizedBox";
-import "./index.css";
+import "./ScoreBoard.css";
 
 const ScoreBoard: React.FC = () => {
   const [results, setResults] = useState<any>([]);
   const playerResult = useLocation();
-  console.log(results);
   useEffect(() => {
     setResults((prevState: any) => {
       return [...prevState, { ...playerResult.state.playerData }];
     });
   }, [playerResult.state.playerData]);
 
-  console.log(results[0]?.playerInfo.state);
   return (
     <>
       <Column>
@@ -30,7 +28,7 @@ const ScoreBoard: React.FC = () => {
                 <th>Date</th>
                 <th>Score</th>
               </tr>
-              {results.map((item: any, index: any) => {
+              {results.map((item: any, index: number) => {
                 return (
                   <tr key={index}>
                     <td>{index + 1}</td>
