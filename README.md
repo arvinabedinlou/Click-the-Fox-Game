@@ -1,7 +1,7 @@
-1-Getting Started
+## 1-Getting Started
 This project is bootstrapped with create-react-app
 
-2-Scripts
+## 2-Scripts
 First use npm install for installing packages
 then you can run app with npm run start and run tests with npm run test
 
