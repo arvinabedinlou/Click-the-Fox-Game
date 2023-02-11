@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
 import Column from "../../components/ui/column/Column";
+import Container from "../../components/ui/container/Container";
 import SizedBox from "../../components/ui/sized-box/SizedBox";
 import "./index.css";
 
@@ -13,6 +15,8 @@ const ScoreBoard: React.FC = () => {
       return [...prevState, { ...playerResult.state.playerData }];
     });
   }, [playerResult.state.playerData]);
+
+  console.log(results[0]?.playerInfo.state);
   return (
     <>
       <Column>
@@ -37,6 +41,14 @@ const ScoreBoard: React.FC = () => {
                 );
               })}
             </table>
+            <Container justifyContent="space-around" marginTop={20}>
+              <Link to="/">
+                <button className="welcome-btn">To Welcome Screen</button>
+              </Link>
+              <Link to="/game" state={results[0]?.playerInfo.state}>
+                <button className="welcome-btn">Play!</button>
+              </Link>
+            </Container>
           </Column>
         </SizedBox>
       </Column>

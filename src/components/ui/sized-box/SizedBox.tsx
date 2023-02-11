@@ -1,4 +1,4 @@
-import React, { CSSProperties, DetailedHTMLProps, HTMLAttributes } from "react";
+import React, { CSSProperties } from "react";
 import "./SizedBox.css";
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
   backgroundColor?: CSSProperties["color"];
   width?: CSSProperties["width"];
   height?: CSSProperties["height"];
-  hidden?: boolean ;
+  hidden?: boolean;
 };
 
 const SizedBox: React.FC<Props> = ({
