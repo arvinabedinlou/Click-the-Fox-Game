@@ -26,22 +26,16 @@ const ScoreBoard: React.FC = () => {
                 <th>Date</th>
                 <th>Score</th>
               </tr>
-              <tr>
-                {results.map((item: any, index: any) => {
-                  return (
-                    <div key={index}>
-                      <td>{index + 1}</td>
-                      <td>{item.playerInfo.state?.name}</td>
-                      <td>{item.playerInfo.state?.formattedDate}</td>
-                      <td>{item.score}</td>
-                    </div>
-                  );
-                })}
-                {/* <td>1</td>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td> */}
-              </tr>
+              {results.map((item: any, index: any) => {
+                return (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{item.playerInfo.state?.name}</td>
+                    <td>{item.playerInfo.state?.formattedDate}</td>
+                    <td>{item.score}</td>
+                  </tr>
+                );
+              })}
             </table>
           </Column>
         </SizedBox>
