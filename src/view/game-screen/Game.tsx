@@ -8,6 +8,7 @@ import PicturesService from "./GameService";
 import "./Game.css";
 import { useLocation } from "react-router-dom";
 import { PicturesModel } from "../../data/model/PicturesModel";
+import { useLoadImage } from "../../hooks/useLoadImage";
 const GameScreen = () => {
   const [timeStart, setTimeStart] = useState<boolean>(false);
   const [page, setPage] = useState<number>(0);
@@ -40,30 +41,14 @@ const GameScreen = () => {
     });
   }, [page]);
 
-  useEffect(() => {
-    imageLoadingHandler();
-  }, [imgLoaded]);
-
-  const imageLoadingHandler = () => {
-    const loadImage = (image: any) => {
-      return new Promise((resolve, reject) => {
-        const loadImg = new Image();
-        loadImg.src = image.url;
-        loadImg.onload = () => {
-          resolve(image.url);
-          loadImg.onerror = (err) => reject(err);
-        };
-      });
-    };
-    Promise.allSettled(pictures.map((image: PicturesModel) => loadImage(image)))
-      .then(() => {
-        if (pictures.length === 9) {
-          setShowLoading(false);
-          setTimeStart(true);
-        }
-      })
-      .catch((err) => console.log("Failed to load images", err));
-  };
+  useLoadImage(
+    () => {
+      setShowLoading(false);
+      setTimeStart(true);
+    },
+    pictures,
+    [imgLoaded]
+  );
 
   const getNewPictures = (item: PicturesModel) => {
     setPage(page + 1);

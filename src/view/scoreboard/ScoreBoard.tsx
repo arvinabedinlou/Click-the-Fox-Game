@@ -22,22 +22,25 @@ const ScoreBoard: React.FC = () => {
           <Column>
             <h2>Score Board</h2>
             <table>
-              <tr>
-                <th>Rank</th>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Score</th>
-              </tr>
-              {results.map((item: any, index: number) => {
-                return (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{item.playerInfo.state?.name}</td>
-                    <td>{item.playerInfo.state?.formattedDate}</td>
-                    <td>{item.score}</td>
-                  </tr>
-                );
-              })}
+              <tbody>
+                <tr>
+                  <th>Rank</th>
+                  <th>Name</th>
+                  <th>Date</th>
+                  <th>Scor</th>
+                </tr>
+
+                {results.map((item: any, index: number) => {
+                  return (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.playerInfo.state?.name}</td>
+                      <td>{item.playerInfo.state?.formattedDate}</td>
+                      <td>{item.score}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
             </table>
             <Container justifyContent="space-around" marginTop={20}>
               <Link to="/">
