@@ -11,7 +11,7 @@ const scoreComponent = (
     }}
   />
 );
-describe("Score component", () => {
+describe("Check Score components bahavior", () => {
   test("Score component should render", () => {
     render(scoreComponent);
     const divElement = screen.getByText(/Score :/i);
