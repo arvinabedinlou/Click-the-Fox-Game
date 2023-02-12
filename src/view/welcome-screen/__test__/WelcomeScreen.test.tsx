@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom/extend-expect";
-import { screen, render, fireEvent, act } from "@testing-library/react";
+import { screen, render, fireEvent } from "@testing-library/react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import WelcomeScreen from "../WelcomeScreen";
 
