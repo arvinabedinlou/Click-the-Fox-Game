@@ -11,7 +11,7 @@ import { PicturesModel } from "../../data/model/PicturesModel";
 import { useLoadImage } from "../../hooks/useLoadImage";
 const GameScreen = () => {
   const [timeStart, setTimeStart] = useState<boolean>(false);
-  const [page, setPage] = useState<number>(0);
+  const [step, setStep] = useState<number>(0);
   const [scoreItem, setScoreItem] = useState<PicturesModel>({
     url: "string",
     type: "",
@@ -39,7 +39,7 @@ const GameScreen = () => {
         setPictures(data);
       },
     });
-  }, [page]);
+  }, [step]);
 
   useLoadImage(
     () => {
@@ -51,7 +51,7 @@ const GameScreen = () => {
   );
 
   const getNewPictures = (item: PicturesModel) => {
-    setPage(page + 1);
+    setStep(step + 1);
     setScoreItem(item);
     setShowLoading(true);
     setTimeStart(false);
