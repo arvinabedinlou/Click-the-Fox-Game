@@ -7,13 +7,6 @@ export default class PicturesRepositoryImpl implements PicturesRepository {
   async picturesList(dataListener: DataListener<PicturesModel[]>) {
     let mixedPictures: PicturesModel[] = [];
 
-    const addType = (data: PicturesModel[], type: string) => {
-      let typedData = data.filter((item, index) => {
-        return index < 4 && (item["type"] = type);
-      });
-      return typedData;
-    };
-
     try {
       const res = await Promise.all([
         get(
@@ -59,5 +52,12 @@ export default class PicturesRepositoryImpl implements PicturesRepository {
     } catch {
       throw Error("Promise failed");
     }
+
+    const addType = (data: PicturesModel[], type: string) => {
+      let typedData = data.filter((item, index) => {
+        return index < 4 && (item["type"] = type);
+      });
+      return typedData;
+    };
   }
 }
