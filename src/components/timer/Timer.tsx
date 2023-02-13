@@ -29,15 +29,15 @@ const CountDownTimer: React.FC<{ startTime: boolean; playerData?: any }> = ({
 
   const playerResult = {
     score: playerData.score,
-    name: playerData.playerInfo.state.name,
-    date: playerData.playerInfo.state.formattedDate,
+    name: playerData.playerInfo.state?.name,
+    date: playerData.playerInfo.state?.formattedDate,
   };
 
   if (timer <= 0) {
     dispatch(saveResult(playerResult));
     navigate("/scoreboard");
   }
-
+  console.log(playerData);
   return (
     <>
       <div

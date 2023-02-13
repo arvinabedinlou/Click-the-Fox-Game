@@ -4,16 +4,19 @@ import { Link } from "react-router-dom";
 import Column from "../../components/ui/column/Column";
 import Container from "../../components/ui/container/Container";
 import SizedBox from "../../components/ui/sized-box/SizedBox";
+import { useAppSelector } from "../../store/store";
 import "./ScoreBoard.css";
 
 const ScoreBoard: React.FC = () => {
-  const [results, setResults] = useState<any>([]);
+  // const [results, setResults] = useState<any>([]);
   const playerResult = useLocation();
-  useEffect(() => {
-    setResults((prevState: any) => {
-      return [...prevState, { ...playerResult.state.playerData }];
-    });
-  }, [playerResult.state.playerData]);
+  const results = useAppSelector((state) => state.results.result);
+  console.log(results);
+  // useEffect(() => {
+  //   setResults((prevState: any) => {
+  //     return [...prevState, { ...playerResult.state.playerData }];
+  //   });
+  // }, [playerResult.state.playerData]);
 
   return (
     <>
@@ -34,8 +37,8 @@ const ScoreBoard: React.FC = () => {
                   return (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{item.playerInfo.state?.name}</td>
-                      <td>{item.playerInfo.state?.formattedDate}</td>
+                      <td>{item.name}</td>
+                      <td>{item.date}</td>
                       <td>{item.score}</td>
                     </tr>
                   );
@@ -46,7 +49,7 @@ const ScoreBoard: React.FC = () => {
               <Link to="/">
                 <button className="welcome-btn">To Welcome Screen</button>
               </Link>
-              <Link to="/game" state={results[0]?.playerInfo.state}>
+              <Link to="/game" state={results[0]}>
                 <button className="welcome-btn">Play!</button>
               </Link>
             </Container>
