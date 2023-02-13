@@ -7,10 +7,10 @@ export interface Result {
 }
 
 export interface ResultState {
-  results: Result[];
+  result: Result[];
 }
 const initialState: ResultState = {
-  results: [],
+  result: [],
 };
 
 export const ResultSlice = createSlice({
@@ -21,13 +21,17 @@ export const ResultSlice = createSlice({
       state,
       action: PayloadAction<{ name?: string; date?: string; score?: number }>
     ) => {
-      state.results.push({
+      state.result.push({
         date: action.payload.date,
         name: action.payload.name,
         score: action.payload.score,
       });
     },
+    setUserSettings: (state, action) => {
+      state.result = { ...state.result, ...action.payload };
+    },
   },
 });
 export default ResultSlice.reducer;
 export const { saveResult } = ResultSlice.actions;
+export const { setUserSettings } = ResultSlice.actions;

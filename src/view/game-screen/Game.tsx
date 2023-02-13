@@ -9,6 +9,8 @@ import "./Game.css";
 import { useLocation } from "react-router-dom";
 import { PicturesModel } from "../../data/model/PicturesModel";
 import { useLoadImage } from "../../hooks/useLoadImage";
+import { useAppDispatch } from "../../store/store";
+import { saveResult } from "../../store/features/resultSlice";
 const GameScreen = () => {
   const [timeStart, setTimeStart] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
@@ -58,7 +60,8 @@ const GameScreen = () => {
     setImgLoaded(false);
     setPictures([]);
   };
-
+  // const dispatch = useAppDispatch();
+  // dispatch(saveResult({ score }));
   return (
     <div>
       <Column>
