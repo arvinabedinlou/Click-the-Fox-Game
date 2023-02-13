@@ -4,6 +4,8 @@ import SizedBox from "../../components/ui/sized-box/SizedBox";
 import useDebounce from "../../hooks/useDebounce";
 import { useNavigate } from "react-router-dom";
 import "./WelcomeScreen.css";
+import { useAppDispatch } from "../../store/store";
+import { saveResult } from "../../store/features/resultSlice";
 
 const Home = () => {
   const [enable, setEnable] = useState(true);
@@ -23,10 +25,12 @@ const Home = () => {
   }, [debouncedValue]);
 
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
   const goToGame = () => {
     const date = new Date();
+    dispatch(saveResult({ name: name }));
     const formattedDate = date.toISOString().slice(0, 10);
+
     navigate("/game", { state: { name, formattedDate } });
   };
   return (
