@@ -6,11 +6,9 @@ import Score from "../../components/score/Score";
 import CountDownTimer from "../../components/timer/Timer";
 import PicturesService from "./GameService";
 import "./Game.css";
-import { useLocation } from "react-router-dom";
 import { PicturesModel } from "../../data/model/PicturesModel";
 import { useLoadImage } from "../../hooks/useLoadImage";
-import { useAppDispatch } from "../../store/store";
-import { saveResult } from "../../store/features/resultSlice";
+
 const GameScreen = () => {
   const [timeStart, setTimeStart] = useState<boolean>(false);
   const [step, setStep] = useState<number>(0);
@@ -29,7 +27,6 @@ const GameScreen = () => {
     },
   ]);
   const [score, setScore] = useState<number>(0);
-  const playerData = useLocation();
 
   useEffect(() => {
     PicturesService.getPicturesList({
@@ -60,18 +57,14 @@ const GameScreen = () => {
     setImgLoaded(false);
     setPictures([]);
   };
-  // const dispatch = useAppDispatch();
-  // dispatch(saveResult({ score }));
+
   return (
     <div>
       <Column>
         <SizedBox width="50%" height={450} backgroundColor={"#EFF5F5"}>
           <Column>
             <SizedBox width="80%">
-              <CountDownTimer
-                startTime={timeStart}
-                playerData={{ playerInfo: playerData, score }}
-              />
+              <CountDownTimer startTime={timeStart} score={score} />
               <Score
                 item={scoreItem}
                 changeScore={(e: number) => {

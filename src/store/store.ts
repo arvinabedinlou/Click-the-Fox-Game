@@ -1,4 +1,4 @@
-import resultSlice, { ResultSlice } from "./features/resultSlice";
+import { ResultSlice } from "./features/resultSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 

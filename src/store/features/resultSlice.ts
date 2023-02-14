@@ -5,10 +5,10 @@ export interface Result {
   date?: string;
   score?: number;
 }
-
 export interface ResultState {
   result: Result[];
 }
+
 const initialState: ResultState = {
   result: [],
 };
@@ -27,11 +27,11 @@ export const ResultSlice = createSlice({
         score: action.payload.score,
       });
     },
-    setUserSettings: (state, action) => {
-      state.result = { ...state.result, ...action.payload };
+    updateResult: (state, action) => {
+      state.result[state.result.length - 1].score = action.payload.score;
     },
   },
 });
 export default ResultSlice.reducer;
 export const { saveResult } = ResultSlice.actions;
-export const { setUserSettings } = ResultSlice.actions;
+export const { updateResult } = ResultSlice.actions;

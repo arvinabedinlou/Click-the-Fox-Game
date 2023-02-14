@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Column from "../../components/ui/column/Column";
 import SizedBox from "../../components/ui/sized-box/SizedBox";
 import useDebounce from "../../hooks/useDebounce";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./WelcomeScreen.css";
 import { useAppDispatch } from "../../store/store";
 import { saveResult } from "../../store/features/resultSlice";
@@ -11,6 +11,7 @@ const Home = () => {
   const [enable, setEnable] = useState(true);
   const [name, setName] = useState<string>("");
   const [show, setShow] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const debouncedValue = useDebounce<string>(name, 1500);
   const getName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,14 +25,10 @@ const Home = () => {
     }
   }, [debouncedValue]);
 
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const goToGame = () => {
     const date = new Date();
-    // dispatch(saveResult({ name: name }));
     const formattedDate = date.toISOString().slice(0, 10);
-
-    navigate("/game", { state: { name, formattedDate } });
+    dispatch(saveResult({ name: name, date: formattedDate, score: 0 }));
   };
   return (
     <div>
@@ -65,9 +62,15 @@ const Home = () => {
           </div>
         </SizedBox>
         <SizedBox height={200} width="50%" backgroundColor={"#EFF5F5"}>
-          <button disabled={enable} className="welcome-btn" onClick={goToGame}>
-            Play
-          </button>
+          <Link to="/game">
+            <button
+              disabled={enable}
+              className="welcome-btn"
+              onClick={goToGame}
+            >
+              Play
+            </button>
+          </Link>
         </SizedBox>
       </Column>
     </div>

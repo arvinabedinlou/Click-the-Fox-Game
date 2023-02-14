@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { saveResult } from "../../store/features/resultSlice";
+import { updateResult } from "../../store/features/resultSlice";
 import { useAppDispatch } from "../../store/store";
 
-const CountDownTimer: React.FC<{ startTime: boolean; playerData?: any }> = ({
+const CountDownTimer: React.FC<{ startTime: boolean; score?: number }> = ({
   startTime,
-  playerData,
+  score,
 }) => {
-  const [timer, setTimer] = useState<number>(30);
+  const [timer, setTimer] = useState<number>(2);
   const tick = useRef<any>();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -27,17 +27,10 @@ const CountDownTimer: React.FC<{ startTime: boolean; playerData?: any }> = ({
     timerFunc();
   }, [startTime]);
 
-  const playerResult = {
-    score: playerData.score,
-    name: playerData.playerInfo.state?.name,
-    date: playerData.playerInfo.state?.formattedDate,
-  };
-
   if (timer <= 0) {
-    dispatch(saveResult(playerResult));
+    dispatch(updateResult({ score }));
     navigate("/scoreboard");
   }
-  console.log(playerData);
   return (
     <>
       <div
