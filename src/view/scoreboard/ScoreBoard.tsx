@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import React from "react";
 import { Link } from "react-router-dom";
 import Column from "../../components/ui/column/Column";
 import Container from "../../components/ui/container/Container";
 import SizedBox from "../../components/ui/sized-box/SizedBox";
+import { saveResult } from "../../store/features/resultSlice";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import "./ScoreBoard.css";
 
 const ScoreBoard: React.FC = () => {
-  const [results, setResults] = useState<any>([]);
-  const playerResult = useLocation();
-  useEffect(() => {
-    setResults((prevState: any) => {
-      return [...prevState, { ...playerResult.state.playerData }];
-    });
-  }, [playerResult.state.playerData]);
-
+  const dispatch = useAppDispatch();
+  const results = useAppSelector((state) => state.results.result);
+  const startNewGame = () => {
+    dispatch(saveResult({ ...results[results.length - 1] }));
+  };
   return (
     <>
       <Column>
@@ -27,15 +25,15 @@ const ScoreBoard: React.FC = () => {
                   <th>Rank</th>
                   <th>Name</th>
                   <th>Date</th>
-                  <th>Scor</th>
+                  <th>Score</th>
                 </tr>
 
                 {results.map((item: any, index: number) => {
                   return (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{item.playerInfo.state?.name}</td>
-                      <td>{item.playerInfo.state?.formattedDate}</td>
+                      <td>{item.name}</td>
+                      <td>{item.date}</td>
                       <td>{item.score}</td>
                     </tr>
                   );
@@ -46,8 +44,10 @@ const ScoreBoard: React.FC = () => {
               <Link to="/">
                 <button className="welcome-btn">To Welcome Screen</button>
               </Link>
-              <Link to="/game" state={results[0]?.playerInfo.state}>
-                <button className="welcome-btn">Play!</button>
+              <Link to="/game">
+                <button className="welcome-btn" onClick={startNewGame}>
+                  Play!
+                </button>
               </Link>
             </Container>
           </Column>
